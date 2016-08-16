@@ -11,12 +11,18 @@ io.on('connection', function(socket){
 	console.log('a user connected');
 
 	socket.on('disconnect', function(){
+		socket.broadcast.emit('chat message', 'user disconnected: '+socket.id);
 		console.log('user disconnected');
 	});
 
 	socket.on('chat message', function(msg){
 		io.emit('chat message', msg);
-		console.log('message: '+msg);
+		console.log('message: '+msg+' -' + (socket.username || socket.id));
+	});
+
+	socket.on('set username', function(username){
+		socket.username = username;
+		console.log('new name: '+socket.id+' => '+username);
 	});
 });
 
