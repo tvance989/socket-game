@@ -9,27 +9,23 @@ app.get('/', function(req, res){
 	res.sendFile(__dirname + '/game.html');
 });
 
+var num_clients = 0;
 var num_clicks = 0;
-var clicks = {};
 
 io.on('connection', function(socket){
-	socket.emit('set button', num_clicks);
-	clicks[socket.id] = 0;
 	console.log('a user connected');
+	io.emit('num clients', ++num_clients);
+
+	socket.emit('num clicks', num_clicks);
 
 	socket.on('button click', function(){
-		num_clicks++;
-		io.emit('set button', num_clicks);
-
-		clicks[socket.id]++;
-		io.emit('debug', clicks);
-
+		io.emit('num clicks', ++num_clicks);
 		console.log('button clicked. '+num_clicks+' total.');
 	});
 
 	socket.on('disconnect', function(){
 		console.log('user disconnected');
-		delete clicks[socket.id];
+		io.emit('num clients', --num_clients);
 	});
 });
 

@@ -17,16 +17,24 @@
 		<script>
 			var socket = io();
 
-			socket.on('set button', function(n){
+			socket.on('num clicks', function(n){
 				$("#btn").html(n);
+				if(n == 1) $(".btn-plural").hide();
+				else $(".btn-plural").show();
+			});
+
+			socket.on('num clients', function(n){
+				$("#clients").html(n);
+				if(n == 1) {
+					$(".client-singular").show();
+					$(".client-plural").hide();
+				} else {
+					$(".client-singular").hide();
+					$(".client-plural").show();
+				}
 			});
 
 			socket.on('debug', function(msg){
-				$("#scores > tbody").html("");
-				Object.keys(msg).forEach(function(key){
-					$("#scores > tbody").append("<tr><td>"+key+"</td><td>"+msg[key]+"</td></tr>");
-				});
-				console.log(msg);
 			});
 
 			$(function(){
@@ -36,17 +44,7 @@
 			});
 		</script>
 
-		<button id="btn" class="btn btn-default"></button>
-
-		<table id="scores" class="table table-hover">
-			<thead>
-				<tr>
-					<th>User</th>
-					<th>Clicks</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
+		<p>This button has been pressed <button id="btn" class="btn btn-default btn-lg"></button> time<span class="btn-plural">s</span>.</p>
+		<p>There <span class="client-singular">is</span><span class="client-plural">are</span> <span id="clients" class="label label-default"></span> <span class="client-singular">person</span><span class="client-plural">people</span> looking at the button right now.</p>
 	</body>
 </html>
