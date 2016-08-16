@@ -14,8 +14,6 @@
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	</head>
 	<body>
-		<button id="btn" class="btn btn-default"></button>
-
 		<script>
 			var socket = io();
 
@@ -24,6 +22,10 @@
 			});
 
 			socket.on('debug', function(msg){
+				$("#scores > tbody").html("");
+				Object.keys(msg).forEach(function(key){
+					$("#scores > tbody").append("<tr><td>"+key+"</td><td>"+msg[key]+"</td></tr>");
+				});
 				console.log(msg);
 			});
 
@@ -33,5 +35,18 @@
 				});
 			});
 		</script>
+
+		<button id="btn" class="btn btn-default"></button>
+
+		<table id="scores" class="table table-hover">
+			<thead>
+				<tr>
+					<th>User</th>
+					<th>Clicks</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
 	</body>
 </html>
