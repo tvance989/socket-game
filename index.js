@@ -1,10 +1,12 @@
+require('dotenv').config();
+
 var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-mongoose.connect("mongodb://node:prepepicantic@ds161175.mlab.com:61175/socket-game");
+mongoose.connect("mongodb://"+process.env.DB_USER+":"+process.env.DB_PASS+"@"+process.env.DB_HOST);
 // create a schema for chat
 var ClickSchema = mongoose.Schema({
 	created: Date,
