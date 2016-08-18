@@ -6,7 +6,8 @@ var mongoose = require('mongoose');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-mongoose.connect("mongodb://"+process.env.DB_USER+":"+process.env.DB_PASS+"@"+process.env.DB_HOST);
+//mongoose.connect("mongodb://"+process.env.DB_USER+":"+process.env.DB_PASS+"@"+process.env.DB_HOST);
+mongoose.connect("mongodb://"+process.env.DB_HOST);
 // create a schema for chat
 var ClickSchema = mongoose.Schema({
 	created: Date,
